@@ -4,8 +4,11 @@
 # он не будет занимать много места при развёртывании.
 FROM python:3.7-slim
 
+# Сделать директорию /app рабочей директорией. 
+WORKDIR /app
+
 # Запустить команду создания директории внутри контейнера
-RUN mkdir /app
+# RUN mkdir /app
 
 # Скопировать с локального компьютера файл зависимостей
 # в директорию /app.
@@ -18,9 +21,6 @@ RUN pip3 install -r /app/requirements.txt --no-cache-dir
 # в директорию /app.
 # COPY api_yamdb/ /app
 COPY . /app
-
-# Сделать директорию /app рабочей директорией. 
-WORKDIR /app
 
 # Выполнить запуск сервера разработки при старте контейнера.
 CMD ["gunicorn", "api_yamdb.wsgi:application", "--bind", "0:8000" ]
